@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 必须是 接口的全限定名(接口的包名+接口名)-->
+<mapper namespace="cn.wolfcode.rbac.mapper.PermissionMapper">
+    <select id="selectAll" resultType="cn.wolfcode.rbac.domain.Permission">
+        select * from permission
+    </select>
+
+    <delete id="deleteById">
+        delete from permission where id=#{id}
+    </delete>
+
+</mapper>

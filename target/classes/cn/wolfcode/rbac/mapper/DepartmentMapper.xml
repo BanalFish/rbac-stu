@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wolfcode.rbac.mapper.DepartmentMapper">
+
+    <resultMap id="baseResultMap" type="cn.wolfcode.rbac.domain.Department">
+        <id column="id" property="id"/>
+        <result column="sn" property="sn"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <select id="selectList" resultMap="baseResultMap">
+        select id, name, sn from department
+    </select>
+
+    <select id="selectListPage" resultMap="baseResultMap">
+        select id,name,sn from department limit #{start},#{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*) from department
+    </select>
+
+    <delete id="delete">
+        DELETE FROM department WHERE id = #{id}
+    </delete>
+
+    <insert id="insert">
+        INSERT INTO department (name, sn)
+        VALUES (#{name}, #{sn})
+    </insert>
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.wolfcode.rbac.mapper.EmployeeMapper">
+
+    <resultMap id="baseResultMap" type="cn.wolfcode.rbac.domain.Employee">
+
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="admin" column="admin"/>
+        <result property="email" column="email"/>
+
+        <!--方式一 关联部门-->
+        <result property="dept.id" column="d_id"/>
+        <result property="dept.name" column="d_name"/>
+        <result property="dept.sn" column="d_sn"/>
+
+        <!--方式二关联部门-->
+        <!--<association property="dept" javaType="cn.wolfcode.rbac.domain.Department" columnPrefix="d_">-->
+        <!--    <id property="id" column="id"/>-->
+        <!--    <result property="name" column="name"/>-->
+        <!--    <result property="sn" column="sn"/>-->
+        <!--</association>-->
+
+    </resultMap>
+
+    <select id="selectList" resultMap="baseResultMap">
+        SELECT e.id, e.name, e.password, e.email, e.age, e.admin, e.dept_id, d.id d_id, d.name d_name
+        FROM employee e LEFT JOIN department d ON e.dept_id = d.id
+        <include refid="whereSql"/>
+        ORDER BY e.id DESC
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(e.id) from employee as e left join department as d
+        on e.dept_id = d.id
+        <include refid="whereSql"/>
+    </select>
+
+    <sql id="whereSql">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                e.name LIKE concat('%', #{keyword}, '%') OR e.email LIKE concat('%', #{keyword}, '%')
+            </if>
+
+            <if test="deptId > 0">
+                AND d.id = #{deptId}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into employee(name,password,email,age,admin,dept_id)
+        values(#{name},#{password},#{email},#{age},#{admin},#{dept.id})
+    </insert>
+
+    <insert id="insertRelationEmployeeIdAndRoleId">
+        insert into employee_role(employee_id,role_id) values(#{employeeId},#{roleId})
+    </insert>
+    
+    <select id="selectById" resultMap="baseResultMap">
+        select e.id,e.name,e.email,e.age,e.admin,
+               d.id,d.name,d.sn from employee as e
+                                         left join department as d on e.dept_id=d.id
+where e.id=#{employeeId}
+    </select>
+
+    <select id="selectRoleByEmployeeId" resultMap="baseResultMap">
+        select r.id,r.name,r.sn from role as r left join employee_role as e
+                                                         on r.id = e.role_id where e.employee_id =#{employeeId}
+    </select>
+
+    <select id="selectByNameAndPass" resultType="cn.wolfcode.rbac.domain.Employee">
+        select * from employee where name=#{username} and password=#{password}
+    </select>
+
+    <update id="update">
+        update employee set name=#{name},password=#{password},email=#{email},
+                            age=#{age},dept_id=#{dept.id} where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from employee where id=#{employeeId}
+    </delete>
+
+    <delete id="deleteRoleAndPermi">
+        delete from employee_role where employee_id=#{employeeId}
+    </delete>
+</mapper>
