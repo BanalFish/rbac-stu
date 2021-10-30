@@ -32,6 +32,7 @@ public class DepartmentController {
 		return mv;
 	}
 
+//	@RequiredPermission(name = "部门列表",expression = "department:list")
 	@RequestMapping("/list")
 	public ModelAndView list() {
 		ModelAndView mv = new ModelAndView();

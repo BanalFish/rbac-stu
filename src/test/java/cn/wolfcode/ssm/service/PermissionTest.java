@@ -44,6 +44,8 @@ public class PermissionTest {
         Map<String, Object> beansMap = ctx.getBeansWithAnnotation(Controller.class);
         Collection<Object> values = beansMap.values();
         List<Permission> permissionList=new ArrayList<>();
+        List<String> permissions=permissionService.selectExpressions();
+
 
         for(Object controller:values){
             Class<?> clazz = controller.getClass();
@@ -54,14 +56,21 @@ public class PermissionTest {
                 if(annotation!=null){
                     String name = annotation.name();
                     String expression = annotation.expression();
-                    Permission permission=new Permission();
-                    permission.setName(name);
-                    permission.setExpression(expression);
-                    permissionList.add(permission);
-                    System.out.println("插入数据->"+permission);
-                    permissionService.insertBatch(permissionList);
+
+                    //避免插入重复的权限
+                    if(!permissions.contains(expression)){
+                        Permission permission=new Permission();
+                        permission.setName(name);
+                        permission.setExpression(expression);
+                        System.out.println("插入数据->"+permission);
+                        permissionList.add(permission);
+                    }
                 }
             }
+        }
+
+        if(permissionList!=null && permissionList.size()>0){
+            permissionService.insertBatch(permissionList);
 
         }
     }

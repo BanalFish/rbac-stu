@@ -8,6 +8,28 @@
         select * from permission
     </select>
 
+    <select id="selectExpressions" resultType="string">
+        select expression from permission
+    </select>
+
+    <select id="selectExpressionsByEmpId" resultType="string">
+        select distinct p.expression
+        from employee_role er join role_permission rp on er.role_id=rp.role_id
+                              join permission p on rp.permission_id=p.id
+        where er.employee_id=#{EmpId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into permission(name,expression) values(#{name},#{expression})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into permission(name,expression) values
+        <foreach collection="permissions" item="item" separator=",">
+            (#{item.name},#{item.expression})
+        </foreach>
+    </insert>
+
     <delete id="deleteById">
         delete from permission where id=#{id}
     </delete>

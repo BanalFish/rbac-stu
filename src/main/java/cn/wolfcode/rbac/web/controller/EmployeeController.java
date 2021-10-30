@@ -28,6 +28,7 @@ public class EmployeeController {
 	@Autowired
 	private IRoleService roleService;
 
+//	@RequiredPermission(name = "员工列表",expression = "employee:list")
 	@RequestMapping("/list")
 	public ModelAndView list(EmployeeQueryObject qo) {
 		ModelAndView mv = new ModelAndView();
@@ -40,7 +41,7 @@ public class EmployeeController {
 		return mv;
 	}
 
-
+	@RequiredPermission(name = "员工编辑",expression = "employee:input")
 	@RequestMapping("/input")
 	public ModelAndView input(Long id){
 		ModelAndView mv=new ModelAndView();
@@ -61,7 +62,7 @@ public class EmployeeController {
 		return mv;
 	}
 
-//	@RequiredPermission(name = "员工信息添加或者保存",expression = "employee:saveOrUpdate")
+	@RequiredPermission(name = "员工保存/更新",expression = "employee:saveOrUpdate")
 	@RequestMapping("/saveOrUpdate")
 	public String saveOrUpdate(Employee employee,Long[] ids){
 		if(ids.length>0&&ids!=null&&employee.getId()==null){
@@ -79,6 +80,7 @@ public class EmployeeController {
 	 * @param id
 	 * @return
 	 */
+	@RequiredPermission(name = "员工删除",expression = "employee:delete")
 	@RequestMapping("/delete")
 	public String delete(Long id){
 		employeeService.deleteEmp(id);
