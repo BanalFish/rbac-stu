@@ -4,6 +4,7 @@ import cn.wolfcode.rbac.domain.Department;
 import cn.wolfcode.rbac.qo.DepartmentQueryObject;
 import cn.wolfcode.rbac.qo.PageResult;
 import cn.wolfcode.rbac.service.IDepartmentService;
+import cn.wolfcode.rbac.util.RequiredPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +59,7 @@ public class DepartmentController {
 	 *
 	 * 5、回到列表
 	 */
+	@RequiredPermission(name="部门删除",expression = "department:delete")
 	@RequestMapping("/delete")
 	public String delete(Long id) {
 		//接收参数
@@ -68,6 +70,7 @@ public class DepartmentController {
 		return "redirect:/department/listPage";
 	}
 
+	@RequiredPermission(name = "部门添加/编辑页面",expression = "department:input")
 	@RequestMapping("/input")
 	public ModelAndView input(Long id) {
 		ModelAndView mv = new ModelAndView();
@@ -76,6 +79,7 @@ public class DepartmentController {
 		return mv;
 	}
 
+	@RequiredPermission(name = "部门添加/保存页面",expression = "department:saveOrUpdate")
 	@RequestMapping("/saveOrUpdate")
 	public String saveOrUpdate(Department department) {
 		//执行保存操作

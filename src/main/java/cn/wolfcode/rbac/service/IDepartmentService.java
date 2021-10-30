@@ -15,6 +15,7 @@ public interface IDepartmentService {
 
 	PageResult<Department> selectPage(DepartmentQueryObject queryObject);
 
+
 	/**
 	 * 根据id删除部门信息
 	 */

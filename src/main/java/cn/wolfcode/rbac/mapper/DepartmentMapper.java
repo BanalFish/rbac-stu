@@ -18,6 +18,10 @@ public interface DepartmentMapper {
 	List<Department> selectListPage(DepartmentQueryObject queryObject);
 
 	/**
+	 *
+	 */
+
+	/**
 	 * 查询数据总条数
 	 */
 	int selectCount();

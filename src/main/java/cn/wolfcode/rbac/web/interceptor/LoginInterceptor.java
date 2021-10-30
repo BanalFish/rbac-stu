@@ -1,6 +1,8 @@
 package cn.wolfcode.rbac.web.interceptor;
 
+import cn.wolfcode.rbac.domain.Employee;
 import com.alibaba.druid.util.StringUtils;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,12 +14,17 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        boolean loginFlag=false;
-        HttpSession session=request.getSession();
-        String username=(String)session.getAttribute("USER_IN_SESSION");
-        if(StringUtils.isEmpty(username)){
-            loginFlag=true;
+        boolean loginFlag=true;
+
+        if(handler instanceof HandlerMethod) {
+            HttpSession session = request.getSession();
+            Employee employee = (Employee) session.getAttribute("USER_IN_SESSION");
+            if (employee == null) {
+                response.sendRedirect("/login.html");
+                loginFlag = false;
+            }
         }
+
         return loginFlag;
     }
 

@@ -8,6 +8,7 @@ import cn.wolfcode.rbac.qo.PageResult;
 import cn.wolfcode.rbac.service.IDepartmentService;
 import cn.wolfcode.rbac.service.IEmployeeService;
 import cn.wolfcode.rbac.service.IRoleService;
+import cn.wolfcode.rbac.util.RequiredPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,6 +61,7 @@ public class EmployeeController {
 		return mv;
 	}
 
+//	@RequiredPermission(name = "员工信息添加或者保存",expression = "employee:saveOrUpdate")
 	@RequestMapping("/saveOrUpdate")
 	public String saveOrUpdate(Employee employee,Long[] ids){
 		if(ids.length>0&&ids!=null&&employee.getId()==null){

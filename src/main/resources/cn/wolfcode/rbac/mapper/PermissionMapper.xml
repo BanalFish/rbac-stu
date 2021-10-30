@@ -8,6 +8,17 @@
         select * from permission
     </select>
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into permission(name,expression) values(#{name},#{expression})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into permission(name,expression) values
+        <foreach collection="permissions" item="item" separator=",">
+            (#{item.name},#{item.expression})
+        </foreach>
+    </insert>
+
     <delete id="deleteById">
         delete from permission where id=#{id}
     </delete>

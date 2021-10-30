@@ -30,4 +30,13 @@ public class LoginController {
        }
        return new JSONResult(false,"fail");
     }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session= request.getSession();
+        session.removeAttribute("USER_IN_SESSION");
+
+        return "redirect:/login.html";
+    }
+
 }

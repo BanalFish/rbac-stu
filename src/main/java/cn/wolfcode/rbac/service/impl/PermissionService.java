@@ -20,7 +20,19 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
+    public void insert(Permission permission) {
+        permissionMapper.insert(permission);
+    }
+
+    @Override
+    public void insertBatch(List<Permission> permissions) {
+        permissionMapper.insertBatch(permissions);
+    }
+
+    @Override
     public void deleteById(Long id) {
         permissionMapper.deleteById(id);
     }
+
+
 }
