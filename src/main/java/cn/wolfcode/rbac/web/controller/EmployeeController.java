@@ -28,7 +28,7 @@ public class EmployeeController {
 	@Autowired
 	private IRoleService roleService;
 
-//	@RequiredPermission(name = "员工列表",expression = "employee:list")
+	@RequiredPermission(name = "员工列表",expression = "employee:list")
 	@RequestMapping("/list")
 	public ModelAndView list(EmployeeQueryObject qo) {
 		ModelAndView mv = new ModelAndView();

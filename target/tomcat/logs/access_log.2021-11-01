@@ -1,0 +1,5 @@
+0:0:0:0:0:0:0:1 - - [01/Nov/2021:10:43:39 +0800] "POST /userLogin HTTP/1.1" 200 57 http-bio-8082-exec-3 407
+0:0:0:0:0:0:0:1 - - [01/Nov/2021:10:43:40 +0800] "GET /employee/list HTTP/1.1" 200 29142 http-bio-8082-exec-3 98
+0:0:0:0:0:0:0:1 - - [01/Nov/2021:11:18:00 +0800] "GET /department/listPage HTTP/1.1" 302 - http-bio-8082-exec-6 40
+0:0:0:0:0:0:0:1 - - [01/Nov/2021:11:18:02 +0800] "POST /userLogin HTTP/1.1" 200 57 http-bio-8082-exec-6 68
+0:0:0:0:0:0:0:1 - - [01/Nov/2021:11:18:02 +0800] "GET /employee/list HTTP/1.1" 200 29142 http-bio-8082-exec-6 51

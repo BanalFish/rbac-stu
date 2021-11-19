@@ -4,6 +4,7 @@ import cn.wolfcode.rbac.domain.Employee;
 import cn.wolfcode.rbac.qo.JSONResult;
 import cn.wolfcode.rbac.service.IEmployeeService;
 import cn.wolfcode.rbac.service.impl.EmployeeServiceImpl;
+import cn.wolfcode.rbac.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,9 @@ public class LoginController {
     @ResponseBody
     public JSONResult userlogin(String username, String password, HttpServletRequest httpServletRequest){
        Employee employee= iEmployeeService.selectByNameAndPass(username,password);
-        HttpSession httpSession=httpServletRequest.getSession();
-        httpSession.setAttribute("USER_IN_SESSION",employee);
+       HttpSession httpSession=httpServletRequest.getSession();
+      //  httpSession.setAttribute("USER_IN_SESSION",employee);
+        UserContext.setEmployee(employee);
        if(employee!=null){
            return new JSONResult(true,"success");
        }
@@ -34,8 +36,8 @@ public class LoginController {
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
         HttpSession session= request.getSession();
-        session.removeAttribute("USER_IN_SESSION");
-
+      //  session.removeAttribute("USER_IN_SESSION");
+        UserContext.removeEmployee();
         return "redirect:/login.html";
     }
 
